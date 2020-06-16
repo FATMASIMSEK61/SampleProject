@@ -7,7 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import com.hrms.utils.CommonMethods;
 
 public class AddEmployeePageElements  extends CommonMethods{
-	
+
 	@FindBy(id="firstName")
 	public WebElement firstName;
 	
@@ -31,6 +31,7 @@ public class AddEmployeePageElements  extends CommonMethods{
 	
 	@FindBy(id="re_password")
 	public WebElement re_password;
+
 	
 	public AddEmployeePageElements() {
 		//baseclassi eklemiyoruz cuku extends ettik

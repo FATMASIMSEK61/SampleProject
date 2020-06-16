@@ -1,22 +1,45 @@
 package com.hrms.testbase;
 
-import java.util.concurrent.TimeUnit;
+	import java.util.concurrent.TimeUnit;
 
-//import java.util.concurrent.TimeUnit;
-	import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.hrms.utils.ConfigsReader;
 
 import bsh.org.objectweb.asm.Constants;
-import io.github.bonigarcia.wdm.WebDriverManager;
-	//import io.github.bonigarcia.wdm.WebDriverManager;
 	public class BaseClass {
 		
-		
 		public static WebDriver driver;
+		public static ExtentHtmlReporter htmlReport;
+		public static ExtentReports  report;
+		
+		@BeforeTest(alwaysRun=true)
+		public void generateReport() {
+			ConfigsReader.readProperties(Constants.CONFIGURATION_FILEPATH);
+		    htmlReport=new ExtentHtmlReporter(Constants.REPORT_FILEPATH);
+			htmlReport.config().setDocumentTitle("Hrms Report");
+			htmlReport.config().setReportName("Hrms Execution Report");
+			htmlReport.config().setTheme(Theme.DARK);
+			
+		    report=new ExtentReports();
+			report.attachReporter(htmlReport);
+			
+		}
+		@AfterTest(alwaysRun=true)
+		public void writeReport() {
+			System.out.println("test etme ciktisi");
+			report.flush();	
+		}
+		@BeforeMethod(alwaysRun=true)//to make this method run before every @Test METHOD
 		public static WebDriver setUp() {
 			
 			System.setProperty(ChromeDriverService.CHROME_DRIVER_LOG_PROPERTY, "true");
